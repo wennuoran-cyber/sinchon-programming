@@ -1,8 +1,8 @@
 import os
 import pickle
 
-# ====================== 1. 기본 설정 ======================
-# 지도 좌표 (행, 열)
+#기본 설정
+#지도 좌표
 map_data = [
     ["종합관", "본관", "경영관", "노천극장", "새천년관", "이윤재관"],
     ["백양관", "백양로5", "대강당", "음악관", "알렌관", "ABMRC"],
@@ -13,7 +13,7 @@ map_data = [
     ["연대앞 버스정류장", "정문", "스타벅스", "세브란스 버스정류장", "", ""]
 ]
 
-# 위치 좌표 찾기
+#위치 좌표
 def get_pos(place_name):
     for i in range(len(map_data)):
         for j in range(len(map_data[i])):
@@ -21,7 +21,7 @@ def get_pos(place_name):
                 return (i, j)
     return (-1, -1)
 
-# 이웃 위치 찾기
+#이웃 위치
 def get_neighbors(pos):
     i, j = pos
     res = {"동": "막힘", "서": "막힘", "남": "막힘", "북": "막힘"}
@@ -37,13 +37,13 @@ def get_neighbors(pos):
         res["북"] = map_data[i-1][j]
     return res
 
-# 이벤트 불러오기
+#이벤트
 with open("events.pkl", "rb") as f:
     event_data = pickle.load(f)
 events = event_data["events"]
 answers = event_data["answers"]
 
-# ====================== 2. 플레이어 클래스 ======================
+#플레이어 클래스
 class Player:
     def __init__(self):
         self.hp = 10.0
@@ -79,7 +79,7 @@ class Player:
         s += f"\n동서남북: {nei['동']}, {nei['서']}, {nei['남']}, {nei['북']}"
         return s
 
-# ====================== 3. 상점 / 퀘스트 ======================
+#상점
 def buy(p):
     place = p.place
     menu = {}
@@ -141,7 +141,7 @@ def quest(p):
             return "위생 미션 완료!"
     return "미션 관련 없음"
 
-# ====================== 4. 저장 / 불러오기 ======================
+#저장
 def save_game(p, diff, inputs):
     data = {
         "player": p.__dict__,
@@ -159,7 +159,7 @@ def load_game():
     p.__dict__ = data["player"]
     return p, data["difficulty"], data["inputs"]
 
-# ====================== 5. 메인 실행 ======================
+#실행
 if __name__ == "__main__":
     player = Player()
     difficulty = "보통"
